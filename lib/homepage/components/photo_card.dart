@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PhotoCard extends StatelessWidget {
-  const PhotoCard({super.key});
+  const PhotoCard({super.key, required this.imageUrl});
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +21,17 @@ class PhotoCard extends StatelessWidget {
           create: (context) => TotalLikesCubit(),
         ),
       ],
-      child: const PhotoCardComponent(),
+      child: PhotoCardComponent(
+        imageUrl: imageUrl,
+      ),
     );
   }
 }
 
 class PhotoCardComponent extends StatelessWidget {
-  const PhotoCardComponent({super.key});
+  const PhotoCardComponent({super.key, required this.imageUrl});
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +48,10 @@ class PhotoCardComponent extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('assets/images/cute_cat.jpg'),
+                    image: NetworkImage(imageUrl),
                   ),
                 ),
               ),

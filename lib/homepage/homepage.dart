@@ -1,10 +1,22 @@
 import 'package:catstagram/homepage/components/photo_card.dart';
+import 'package:catstagram/homepage/cubits/cat_overview_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Homepage extends StatelessWidget {
-  Homepage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  final photoCardItems = List.filled(10, const PhotoCard());
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CatOverviewCubit(context.read())..getCats(),
+      child: const HomeView(),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +24,24 @@ class Homepage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Catstagram'),
       ),
-      // This widget looks empty, would be nice to see multiple photocards in
-      // a list.
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView.separated(
-          itemCount: photoCardItems.length,
-          itemBuilder: (context, index) => photoCardItems[index],
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
+        child: BlocBuilder<CatOverviewCubit, CatOverviewState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              result: (cats) {
+                return ListView.separated(
+                  itemCount: cats.length,
+                  itemBuilder: (context, index) => PhotoCard(
+                    imageUrl: cats[index].url,
+                  ),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 16),
+                );
+              },
+              orElse: Container.new,
+            );
+          },
         ),
       ),
     );

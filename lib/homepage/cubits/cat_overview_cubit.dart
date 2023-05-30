@@ -10,7 +10,10 @@ class CatOverviewCubit extends Cubit<CatOverviewState> {
 
   final CatRepository catRepository;
 
-  // This cubit is missing a call to the repository
+  Future<void> getCats() async {
+    final cats = await catRepository.getCats();
+    emit(_Result(cats));
+  }
 }
 
 @freezed
