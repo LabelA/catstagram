@@ -2,10 +2,16 @@ import 'package:catstagram/homepage/components/like_button.dart';
 import 'package:catstagram/homepage/components/share_button.dart';
 import 'package:flutter/material.dart';
 
-class PhotoCard extends StatelessWidget {
+class PhotoCard extends StatefulWidget {
   const PhotoCard({super.key});
 
-  final int likes = 100;
+  @override
+  State<PhotoCard> createState() => _PhotoCardState();
+}
+
+class _PhotoCardState extends State<PhotoCard> {
+  int get likes => 100 + (isLiked ? 1 : 0);
+  bool isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +40,8 @@ class PhotoCard extends StatelessWidget {
                 // Sadly this like button doesn't update the like variable.
                 // It also doesn't change to a filled heart when pressed.
                 LikeButton(
-                  onPressed: () => print('clicked'),
-                  isLiked: false,
+                  onPressed: () => setState(() => isLiked = !isLiked),
+                  isLiked: isLiked,
                 ),
                 Text(
                   '$likes likes',
