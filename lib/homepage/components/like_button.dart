@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LikeButton extends StatelessWidget {
-  const LikeButton({super.key, required this.onPressed});
+  const LikeButton({super.key, required this.onPressed, required this.isLiked});
 
   final VoidCallback onPressed;
+  final bool isLiked;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class LikeButton extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       icon: Icon(
-        Icons.favorite_border,
+        isLiked ? Icons.favorite : Icons.favorite_border,
         color: colorScheme.primary,
       ),
     );

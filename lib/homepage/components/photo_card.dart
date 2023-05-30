@@ -33,7 +33,10 @@ class PhotoCard extends StatelessWidget {
               children: [
                 // Sadly this like button doesn't update the like variable.
                 // It also doesn't change to a filled heart when pressed.
-                LikeButton(onPressed: () => print('clicked')),
+                LikeButton(
+                  onPressed: () => print('clicked'),
+                  isLiked: false,
+                ),
                 Text(
                   '$likes likes',
                   style: textTheme.labelLarge
